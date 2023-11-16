@@ -1,21 +1,28 @@
-// Import necessary libraries
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import abi from "../pages/contract/Voting.json";
 import { useRouter } from "next/router";
 
-// Admin component
-const Admin = ({ provider }) => {
+const AddCandidate = () => {
   const router = useRouter();
+
+  // Ensure that window.ethereum is available
+  if (!window.ethereum) {
+    console.error("Ethereum provider not detected. Please make sure MetaMask or another Ethereum provider is installed.");
+    return <div>Ethereum provider not available</div>; // Or handle the lack of provider in your application
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [candidateAddress, setCandidateAddress] = useState("");
   const [candidates, setCandidates] = useState([]);
 
-  const contractAddress = '0xFB094fdD45664c1612F3bA86F79EcA224B27fAA5';
+  const contractAddress = '0x4454d84bcCf974Ab90FC11c36741B1841f15ec68';
   const contractAbi = abi.abi;
 
-  const addCandidate = async () => {
+  const addNewCandidate = async () => {
     try {
       if (!name || !age || !candidateAddress) {
         console.error("Please fill in all the fields");
@@ -37,7 +44,7 @@ const Admin = ({ provider }) => {
       // After adding a candidate, fetch and display all candidates
       getAllCandidates();
 
-      router.push('/voter')
+      router.push('/voter');
     } catch (error) {
       console.error("Error adding candidate:", error);
     }
@@ -85,7 +92,7 @@ const Admin = ({ provider }) => {
         <label>Address:</label>
         <input type="text" value={candidateAddress} onChange={(e) => setCandidateAddress(e.target.value)} />
       </div>
-      <button onClick={addCandidate}>Add Candidate</button>
+      <button onClick={addNewCandidate}>Add Candidate</button>
 
       <div>
         <h2>All Candidates</h2>
@@ -101,4 +108,4 @@ const Admin = ({ provider }) => {
   );
 };
 
-export default Admin;
+export default AddCandidate;

@@ -20,6 +20,7 @@ contract Voting {
 
     Candidate[] public candidates;
     mapping(address => Voter) public voters;
+    address[] public votersByIndex; // New array to store registered voter addresses
 
     uint256 public votingStart;
     uint256 public votingEnd;
@@ -57,12 +58,15 @@ contract Voting {
 
     function registerVoter(string memory _name, uint256 _age, address _voterAddress) public onlyAdmin {
         require(voters[_voterAddress].age == 0, "Voter is already registered");
+
         voters[_voterAddress] = Voter({
             name: _name,
             age: _age,
             voterAddress: _voterAddress,
             hasVoted: false
         });
+
+        votersByIndex.push(_voterAddress); // Add the voter's address to the array
 
         totalVoters++;
     }
@@ -89,6 +93,19 @@ contract Voting {
 
     function getAllCandidates() public view returns (Candidate[] memory) {
         return candidates;
+    }
+
+    function getAllVoters() public view returns (Voter[] memory) {
+        Voter[] memory allVoters = new Voter[](totalVoters);
+
+        uint256 voterIndex = 0;
+        for (uint256 i = 0; i < totalVoters; i++) {
+            address voterAddress = votersByIndex[i];
+            allVoters[voterIndex] = voters[voterAddress];
+            voterIndex++;
+        }
+
+        return allVoters;
     }
 
     function getCandidateCount() public view returns (uint256) {
