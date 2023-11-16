@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import abi from "./contract/Voting.json";
 import { useRouter } from "next/router";
 import Login from "@/components/Login";
-import Voting from "@/components/Voting";
+import Admin from "@/components/Admin";
 
 const Index = () => {
   const [provider, setProvider] = useState(null);
@@ -11,7 +11,12 @@ const Index = () => {
   const [signer, setSigner] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
+  const [votingStatus, setVotingStatus] = useState(false);
+
+  const contractAddress = '0xFB094fdD45664c1612F3bA86F79EcA224B27fAA5';
+  const contractAbi = abi.abi;
   useEffect( () => {
+    getCurrentStatus();
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', handleAccountsChanged);
     }
@@ -21,7 +26,7 @@ const Index = () => {
         window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
       }
     }
-  });
+  }, [account]);
 
   function handleAccountsChanged(accounts) {
     if (accounts.length > 0 && account !== accounts[0]) {
@@ -49,10 +54,22 @@ const Index = () => {
       }
     }
   };
+
+  const getCurrentStatus = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    const contractInstance = new ethers.Contract (
+      contractAddress, contractAbi, signer
+    );
+    const status = await contractInstance.getVotingStatus();
+    console.log(status);
+    setVotingStatus(status);
+  }
   return (
     <div>
       {isConnected ? (
-        <Voting account={account} />
+        <Admin account={account} provider={provider} />
       ) : (
         <Login connectWallet={connectContract} />
       )}
