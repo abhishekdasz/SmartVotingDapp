@@ -38,7 +38,7 @@ const Administrator = () => {
     }
   }
 
-
+  // connect to metamask
   const connectContract = async () => {
     if (window.ethereum) {
       try {
