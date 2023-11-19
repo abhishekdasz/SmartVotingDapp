@@ -8,7 +8,7 @@ import AdminPage from "./AdminPage";
 import { useAccount } from "./context/AccountProvider";
 import Vote from "./Vote";
 
-const Administrator = () => {
+const VoteProcess = () => {
   const { account, setAccount, provider, setProvider } = useAccount();
 
   // const [provider, setProvider] = useState(null);
@@ -78,13 +78,8 @@ const Administrator = () => {
       ) : (
         <Login connectWallet={connectContract} />
       )}
-            {isConnected ? (
-        <AdminPage account={account} provider={provider} />
-      ) : (
-        <Login connectWallet={connectContract} />
-      )}
     </div>
   );
 };
 
-export default Administrator;
+export default VoteProcess;

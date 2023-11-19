@@ -16,7 +16,7 @@ const AddVoter = () => {
   const [voterAddress, setVoterAddress] = useState("");
   const [voters, setVoters] = useState([]);
 
-  const contractAddress = '0x9692E8B9A018AeA4570dd76099Cf537224561883';
+  const contractAddress = '0xF7Ae57AeDB4060feA41c4b076BDb5dA69ca45e6f';
   const contractAbi = abi.abi;
 
   const registerVoter = async () => {

@@ -133,4 +133,7 @@ contract Voting {
     function showTotalVoters() public view returns (uint256) {
         return totalVoters;
     }
+    function isRegisteredVoter(address _voterAddress) public view returns (bool) {
+        return voters[_voterAddress].age > 0;
+    }
 }

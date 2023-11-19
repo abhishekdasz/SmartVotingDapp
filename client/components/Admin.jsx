@@ -12,7 +12,7 @@ const Admin = ({ provider }) => {
   const [candidateAddress, setCandidateAddress] = useState("");
   const [candidates, setCandidates] = useState([]);
 
-  const contractAddress = '0xFB094fdD45664c1612F3bA86F79EcA224B27fAA5';
+  const contractAddress = '0x4fF71717F17E3F92dEE7B356B25cd9Bea6852C37';
   const contractAbi = abi.abi;
 
   const addCandidate = async () => {

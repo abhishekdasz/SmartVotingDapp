@@ -1,5 +1,13 @@
-import '@/styles/globals.css'
+import '@/styles/globals.css';
+import { AccountProvider } from './context/AccountProvider';
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <AccountProvider>
+      <Component {...pageProps} />
+    </AccountProvider>
+  );
 }
+
+export default MyApp;
